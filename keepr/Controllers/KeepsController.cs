@@ -50,5 +50,56 @@ namespace keepr.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [HttpGet("{id}")]
+    public ActionResult<Keep> GetById(int id)
+    {
+      try
+      {
+        Keep keep = _ks.GetById(id);
+        return Ok(keep);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpPut("{keepId}")]
+    [Authorize]
+    public async Task<ActionResult<Keep>> Update([FromBody] Keep keep, int keepId)
+    {
+      try
+      {
+
+      Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+      keep.CreatorId = userInfo.Id;
+      keep.Id = keepId;
+      keep = _ks.Update(keep);
+      return Ok(keep);
+        
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+
+    }
+
+    [HttpDelete("{keepId}")]
+    [Authorize]
+    public async Task<ActionResult<int>> Remove(int keepId)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        int removedId = _ks.Remove(keepId, userInfo.Id);
+        return Ok(removedId);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }

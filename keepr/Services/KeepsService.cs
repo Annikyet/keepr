@@ -35,5 +35,35 @@ namespace keepr.Services
       List<Keep> keeps = _repo.GetAll();
       return keeps;
     }
+
+    internal Keep GetById(int id)
+    {
+      return _repo.GetById(id);
+    }
+
+    internal Keep Update(Keep update)
+    {
+      Keep original = GetById(update.Id);
+      if (original.CreatorId != update.CreatorId)
+      {
+        throw new Exception("Nacho Keep!");
+      }
+      original.Name = update.Name ?? original.Name;
+      original.Description = update.Description ?? original.Description;
+      original.Img = update.Img ?? original.Img;
+      _repo.Update(original);
+      return original;
+    }
+
+    internal int Remove(int keepId, string userId)
+    {
+      Keep original = GetById(keepId);
+      if (original.CreatorId != userId)
+      {
+        throw new Exception("Nacho Keep!");
+      }
+      _repo.Remove(keepId);
+      return keepId;
+    }
   }
 }

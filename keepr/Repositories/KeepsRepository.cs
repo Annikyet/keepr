@@ -63,5 +63,49 @@ namespace keepr.Repositories
         return keep;
       }).ToList();
     }
+
+    public Keep GetById(int id)
+    {
+      string sql = @"
+        UPDATE keeps
+        SET views = views + 1
+        WHERE id = @id;
+        SELECT
+          a.*,
+          k.*
+        FROM keeps k
+        JOIN accounts a
+          ON a.id = k.creatorId
+        WHERE k.id = @id;
+      "; // TODO update view counter
+      return _db.Query<Profile, Keep, Keep>(sql, (prof, keep) =>
+      {
+        keep.Creator = prof;
+        return keep;
+      }, new {id}).FirstOrDefault();
+    }
+
+    public void Update(Keep update)
+    {
+      string sql = @"
+        UPDATE keeps
+        SET
+          name = @Name,
+          description = @Description,
+          img = @Img
+        WHERE id = @Id
+      ";
+      _db.Execute(sql, update);
+    }
+
+    public void Remove(int id)
+    {
+      string sql = @"
+        DELETE FROM keeps
+        WHERE id = @id
+        LIMIT 1;
+      ";
+      _db.Execute(sql, new {id});
+    }
   }
 }

@@ -43,3 +43,13 @@ CREATE TABLE IF NOT EXISTS keeps(
         FROM vaults
         WHERE creatorId = '62df16f445a8ad25b2c9485c'
         AND isPrivate = 0;
+
+        select * from keeps;
+        select * from accounts;
+
+                SELECT
+          a.*,
+          k.*
+        FROM keeps k
+        JOIN accounts a
+          ON a.id = k.creatorId;
