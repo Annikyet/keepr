@@ -42,6 +42,15 @@ namespace keepr
             
             services.AddScoped<AccountsRepository>();
             services.AddScoped<AccountService>();
+
+            services.AddScoped<ProfilesRepository>();
+            services.AddScoped<ProfilesService>();
+
+            services.AddScoped<KeepsRepository>();
+            services.AddScoped<KeepsService>();
+            
+            services.AddScoped<VaultsRepository>();
+            services.AddScoped<VaultsService>();
         }
 
         private void ConfigureCors(IServiceCollection services)
