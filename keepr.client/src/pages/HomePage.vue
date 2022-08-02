@@ -1,17 +1,35 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <!-- TODO add masonry later -->
+  <div class="container-fluid px-md-5 pt-4">
+    <div class="row">
+      <div v-for="k in keeps" :key="k.id" class="col-6 col-md-4 col-lg-3 p-2">
+      <!-- <img src="../assets/img/404.svg" alt=""> TODO use this as default img in DB-->
+        <KeepTile :keep="k" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, ref } from 'vue'
+import { AppState } from '../AppState.js'
+import { logger } from '../utils/Logger.js'
+import { keepsService } from '../services/KeepsService.js'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    onMounted(async () => {
+      try {
+        await keepsService.GetAll()
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    return {
+      keeps: computed(() => AppState.keeps)
+    }
+  }
 }
 </script>
 
