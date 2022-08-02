@@ -68,7 +68,7 @@ namespace keepr.Services
       return _repo.Remove(vaultKeep.Id);
     }
 
-    internal List<Keep> GetVaultKeeps(int vaultId)
+    internal List<KeepVaultViewModel> GetVaultKeeps(int vaultId)
     {
       return _repo.GetVaultKeeps(vaultId);
     }

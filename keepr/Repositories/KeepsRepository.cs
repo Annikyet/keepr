@@ -37,13 +37,14 @@ namespace keepr.Repositories
     public Keep Create(Keep keep)
     {
       string sql = @"
-      INSERT INTO keeps
-      (creatorId, name, description, img)
-      VALUES
-      (@CreatorId, @Name, @Description, @Img);
-      SELECT LAST_INSERT_ID();
+        INSERT INTO keeps
+          (creatorId, name, description, img)
+        VALUES
+          (@CreatorId, @Name, @Description, @Img);
+        SELECT LAST_INSERT_ID();
       ";
-      keep.Id = _db.ExecuteScalar<int>(sql, keep);
+      int keepId = _db.ExecuteScalar<int>(sql, keep);
+      keep = GetById(keepId);
       return keep;
     }
 

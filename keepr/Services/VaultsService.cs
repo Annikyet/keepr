@@ -41,7 +41,21 @@ namespace keepr.Services
       {
         throw new Exception("No vault for you!");
       }
-      if (vault.CreatorId != userId && vault.IsPrivate == true)
+      if (vault.IsPrivate == true && vault.CreatorId != userId)
+      {
+          throw new Exception("No vault for you!");
+      }
+      return vault;
+    }
+
+    internal Vault GetByIdAnon(int vaultId)
+    {
+      Vault vault = _repo.GetById(vaultId);
+      if (vault == null)
+      {
+        throw new Exception("No vault for you!");
+      }
+      if (vault.IsPrivate == true)
       {
         throw new Exception("No vault for you!");
       }

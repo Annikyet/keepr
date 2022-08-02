@@ -20,8 +20,8 @@ namespace keepr.Models
     // shares int - stretch goal
   }
 
-  // public class KeepVaultViewModel : Keep
-  // {
-  //   public int MyProperty { get; set; }
-  // }
+  public class KeepVaultViewModel : Keep
+  {
+    public int VaultKeepId { get; set; }
+  }
 }

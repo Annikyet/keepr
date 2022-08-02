@@ -68,12 +68,13 @@ namespace keepr.Repositories
 
     }
 
-    internal List<Keep> GetVaultKeeps(int vaultId)
+    internal List<KeepVaultViewModel> GetVaultKeeps(int vaultId)
     {
       string sql = @"
         SELECT
           a.*,
-          k.*
+          k.*,
+          vk.id
         FROM keeps k
         JOIN accounts a
           ON a.id = k.creatorId
@@ -81,9 +82,10 @@ namespace keepr.Repositories
           ON vk.keepId = k.id
         WHERE vk.vaultId = @vaultId;
       ";
-      return _db.Query<Profile, Keep, Keep>(sql, (prof, keep) =>
+      return _db.Query<Profile, KeepVaultViewModel, int, KeepVaultViewModel>(sql, (prof, keep, vkid) =>
       {
         keep.Creator = prof;
+        keep.VaultKeepId = vkid;
         return keep;
       }, new {vaultId}).ToList();
     }

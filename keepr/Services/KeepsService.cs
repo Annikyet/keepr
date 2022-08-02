@@ -38,8 +38,14 @@ namespace keepr.Services
 
     internal Keep GetById(int id)
     {
-      _repo.IncViews(id);
-      return _repo.GetById(id);
+
+     _repo.IncViews(id);
+     Keep keep = _repo.GetById(id);
+     if (keep == null)
+     {
+      throw new Exception("No keep for you!");
+     }
+     return keep;
     }
 
     internal Keep CheckById(int id)

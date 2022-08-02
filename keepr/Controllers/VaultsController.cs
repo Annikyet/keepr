@@ -45,7 +45,15 @@ namespace keepr.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        Vault vault = _vs.GetById(vaultId, userInfo.Id);
+        Vault vault;
+        if (userInfo == null)
+        {
+          vault = _vs.GetByIdAnon(vaultId);
+        }
+        else
+        {
+          vault = _vs.GetById(vaultId, userInfo.Id);
+        }
         return Ok(vault);
       }
       catch (System.Exception e)
@@ -60,8 +68,16 @@ namespace keepr.Controllers
       try
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
-        Vault vault = _vs.GetById(vaultId, userInfo.Id);
-        List<Keep> keeps = _vks.GetVaultKeeps(vault.Id);
+        Vault vault;
+        if (userInfo == null)
+        {
+          vault = _vs.GetByIdAnon(vaultId);
+        }
+        else
+        {
+          vault = _vs.GetById(vaultId, userInfo.Id);
+        }
+        List<KeepVaultViewModel> keeps = _vks.GetVaultKeeps(vault.Id);
         return Ok(keeps);
       }
       catch (System.Exception e)

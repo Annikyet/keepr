@@ -50,7 +50,8 @@ namespace keepr.Repositories
         (@CreatorId, @Name, @Description, @IsPrivate);
         SELECT LAST_INSERT_ID();
         ";
-      vaultData.Id = _db.ExecuteScalar<int>(sql, vaultData);
+      int vaultId = _db.ExecuteScalar<int>(sql, vaultData);
+      vaultData = GetById(vaultId);
       return vaultData;
 
     }
@@ -66,11 +67,13 @@ namespace keepr.Repositories
           ON v.creatorId = a.id
         WHERE v.id = @id;
       ";
-      return _db.Query<Profile, Vault, Vault>(sql, (prof, vaul) =>
+      Vault vault = _db.Query<Profile, Vault, Vault>(sql, (prof, vaul) =>
       {
         vaul.Creator = prof;
         return vaul;
       }, new {id}).FirstOrDefault();
+
+      return vault;
     }
 
     internal Vault Update(Vault update)
