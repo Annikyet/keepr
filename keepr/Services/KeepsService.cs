@@ -38,6 +38,12 @@ namespace keepr.Services
 
     internal Keep GetById(int id)
     {
+      _repo.IncViews(id);
+      return _repo.GetById(id);
+    }
+
+    internal Keep CheckById(int id)
+    {
       return _repo.GetById(id);
     }
 
@@ -64,6 +70,21 @@ namespace keepr.Services
       }
       _repo.Remove(keepId);
       return keepId;
+    }
+
+    internal void IncViews(int id)
+    {
+      _repo.IncViews(id);
+    }
+
+    internal void IncKept(int id)
+    {
+      _repo.IncKept(id);
+    }
+
+    internal void DecKept(int id)
+    {
+      _repo.DecKept(id);
     }
   }
 }

@@ -67,9 +67,6 @@ namespace keepr.Repositories
     public Keep GetById(int id)
     {
       string sql = @"
-        UPDATE keeps
-        SET views = views + 1
-        WHERE id = @id;
         SELECT
           a.*,
           k.*
@@ -83,6 +80,16 @@ namespace keepr.Repositories
         keep.Creator = prof;
         return keep;
       }, new {id}).FirstOrDefault();
+    }
+
+    public void IncViews(int id)
+    {
+      string sql = @"
+        UPDATE keeps
+        SET views = views + 1
+        WHERE id = @id;
+      ";
+      _db.Execute(sql, new {id});
     }
 
     public void Update(Keep update)
@@ -104,6 +111,26 @@ namespace keepr.Repositories
         DELETE FROM keeps
         WHERE id = @id
         LIMIT 1;
+      ";
+      _db.Execute(sql, new {id});
+    }
+
+    public void IncKept(int id)
+    {
+        string sql = @"
+        UPDATE keeps
+        SET kept = kept + 1
+        WHERE id = @id;
+      ";
+      _db.Execute(sql, new {id});
+    }
+
+    public void DecKept(int id)
+    {
+        string sql = @"
+        UPDATE keeps
+        SET kept = kept - 1
+        WHERE id = @id;
       ";
       _db.Execute(sql, new {id});
     }

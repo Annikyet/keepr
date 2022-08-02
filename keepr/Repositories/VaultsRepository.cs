@@ -31,5 +31,71 @@ namespace keepr.Repositories
         AND isPrivate = 0;";
       return _db.Query<Vault>(sql, new {id}).ToList();
     }
+
+    internal List<Vault> GetMyVaults(string id)
+    {
+      string sql = @"
+        SELECT *
+        FROM vaults
+        WHERE creatorId = @id;";
+      return _db.Query<Vault>(sql, new {id}).ToList();
+    }
+
+    internal Vault Create(Vault vaultData)
+    {
+      string sql = @"
+        INSERT INTO vaults
+        (creatorId, name, description, isPrivate)
+        VALUES
+        (@CreatorId, @Name, @Description, @IsPrivate);
+        SELECT LAST_INSERT_ID();
+        ";
+      vaultData.Id = _db.ExecuteScalar<int>(sql, vaultData);
+      return vaultData;
+
+    }
+    
+    internal Vault GetById(int id)
+    {
+      string sql = @"
+        SELECT
+          a.*,
+          v.*
+        FROM vaults v
+        JOIN accounts a
+          ON v.creatorId = a.id
+        WHERE v.id = @id;
+      ";
+      return _db.Query<Profile, Vault, Vault>(sql, (prof, vaul) =>
+      {
+        vaul.Creator = prof;
+        return vaul;
+      }, new {id}).FirstOrDefault();
+    }
+
+    internal Vault Update(Vault update)
+    {
+      string sql = @"
+        UPDATE vaults
+        SET
+          name = @Name,
+          description = @Description,
+          isPrivate = @IsPrivate
+        WHERE id = @Id;
+      ";
+      _db.Execute(sql, update);
+      return update;
+    }
+
+    internal int Remove(int vaultId)
+    {
+      string sql = @"
+        DELETE FROM vaults
+        WHERE id = @vaultId
+        LIMIT 1;
+      ";
+      _db.Execute(sql, new {vaultId});
+      return vaultId;
+    }
   }
 }
