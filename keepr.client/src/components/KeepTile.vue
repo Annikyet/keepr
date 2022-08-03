@@ -1,32 +1,50 @@
 <template>
-  <div @click="" class="component">
-      <div class="card bg-dark text-white">
-        <!-- TODO check if keep.img is a valid image -->
-        <img :src="keep.img" class="card-img" :alt="keep.name">
-        <div class="card-img-overlay d-flex justify-content-between align-items-end">
-          <h5 class="card-title">{{ keep.name }}</h5>
-          <a href="#">
-            <img :src="keep.creator.picture" :alt="keep.creator.name" class="rounded-pill img-fluid">
-          </a>
-        </div>
+  <div @click="viewKeep()" class="component">
+    <div class="card bg-dark text-white">
+      <!-- TODO check if keep.img is a valid image -->
+      <img :src="keep.img" class="card-img" :alt="keep.name">
+      <div class="card-img-overlay d-flex justify-content-between align-items-end">
+        <h5 class="card-title">{{ keep.name }}</h5>
+        <a href="#">
+          <img :src="keep.creator.picture" :alt="keep.creator.name" class="rounded-pill img-fluid">
+        </a>
       </div>
+    </div>
   </div>
 </template>
 
 
 <script>
 import { computed, onMounted, ref } from 'vue'
+import { router } from '../router.js'
 import { AppState } from '../AppState.js'
 import { logger } from '../utils/Logger.js'
-import { Keep } from "../models/Keep.js"
+
 export default {
   props: {
     keep: {
-      type: Keep
+      id: Number,
+      creatorId: String,
+      name: String,
+      description: String,
+      img: String,
+      views: Number,
+      kept: Number,
+      creator: {
+        id: String,
+        name: String,
+        picture: String
+      }
     }
   },
   setup(props) {
-    return {}
+    return {
+      viewKeep() {
+        AppState.activeKeep = props.keep;
+        // console.log(props.keep.id)
+        // router.push({name: 'Keep'})
+      }
+    }
   }
 }
 </script>
@@ -35,6 +53,7 @@ export default {
 <style lang="scss" scoped>
 .card-img {
   min-height: 160px;
+  max-height: 80vh;
 }
 
 .card-img-overlay img {
