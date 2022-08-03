@@ -1,13 +1,7 @@
-using keepr.Controllers;
 using keepr.Models;
 using keepr.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using keepr.Services;
-using CodeWorks.Auth0Provider;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Services
 {
@@ -75,6 +69,7 @@ namespace keepr.Services
       }
       original.Name = update.Name ?? original.Name;
       original.Description = update.Description ?? original.Description;
+      original.Img = update.Img ?? original.Img;
       original.IsPrivate = update.IsPrivate != null ? update.IsPrivate : original.IsPrivate;
       update = _repo.Update(original);
       return update;

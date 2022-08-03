@@ -1,13 +1,5 @@
-using keepr.Controllers;
 using keepr.Models;
-using keepr.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using keepr.Services;
-using CodeWorks.Auth0Provider;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Dapper;
 using System.Data;
 using System.Linq;
@@ -45,9 +37,9 @@ namespace keepr.Repositories
     {
       string sql = @"
         INSERT INTO vaults
-        (creatorId, name, description, isPrivate)
+        (creatorId, name, description, img, isPrivate)
         VALUES
-        (@CreatorId, @Name, @Description, @IsPrivate);
+        (@CreatorId, @Name, @Description, @Img, @IsPrivate);
         SELECT LAST_INSERT_ID();
         ";
       int vaultId = _db.ExecuteScalar<int>(sql, vaultData);
@@ -83,6 +75,7 @@ namespace keepr.Repositories
         SET
           name = @Name,
           description = @Description,
+          img = @Img,
           isPrivate = @IsPrivate
         WHERE id = @Id;
       ";

@@ -1,8 +1,8 @@
 <template>
   <!-- TODO add masonry later -->
   <div class="container-fluid px-md-5 pt-4">
-    <div class="row">
-      <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="col-6 col-md-4 col-lg-3 p-2">
+    <div class="masonry-frame">
+      <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="p-2">
       <!-- <img src="../assets/img/404.svg" alt=""> TODO use this as default img in DB-->
         <KeepTile :keep="k" />
       </div>
@@ -22,7 +22,7 @@ export default {
   setup() {
     onMounted(async () => {
       try {
-        await keepsService.GetAll()
+        await keepsService.getAll()
         // document.getElementById('keepModal').
         
       } catch (error) {
@@ -37,8 +37,6 @@ export default {
       viewKeep(keep) {
         AppState.activeKeep = keep
         Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
-        
-        
       }
     }
   }
@@ -61,6 +59,26 @@ export default {
       object-fit: contain;
       object-position: center;
     }
+  }
+}
+
+.masonry-frame {
+  columns: 6;
+
+  div {
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .masonry-frame {
+    columns: 4
+  }
+}
+
+@media (max-width: 767.98px) {
+  .masonry-frame {
+    columns: 2;
   }
 }
 </style>

@@ -81,7 +81,7 @@ export default {
       account: computed(() => {AppState.account}),
       viewProfile() {
         // console.log(user.name)
-        // AppState.activeProfile = user
+        // AppState.activeProfile = props.keep.creator
         Modal.getOrCreateInstance(document.getElementById('keepModal')).hide()
         // logger.log(props.keep.creator.id)
         router.push({name: 'Profile', params: {id: props.keep.creator.id}})
