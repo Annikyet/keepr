@@ -20,6 +20,15 @@ class VaultsService {
       logger.error(error)
     }
   }
+
+  async createVault(vaultData) {
+    try {
+      const res = await api.post('api/vaults', vaultData)
+      logger.log(res.data)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 }
 
 export const vaultsService = new VaultsService()

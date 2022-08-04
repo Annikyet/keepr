@@ -1,7 +1,7 @@
 <template>
   <div class="component">
-    <div class="card text-white">
-      <img :src="vault.img" :alt="vault.name" class="vault-img">
+    <div class="card text-white rounded-3 border-0">
+      <img :src="vault.img" :alt="vault.name" class="vault-img rounded-3">
       <div class="card-img-overlay d-flex align-items-end">
         <h5 class="card-title">{{vault.name}}</h5>
       </div>

@@ -1,21 +1,21 @@
 <template>
   <div class="component">
     <div class="container">
-      <div class="row">
+      <div class="row mt-5">
         <div class="d-flex">
-          <img :src="profile?.picture" :alt="profile?.name" class="profile-pic">
-          <div class="d-flex flex-column">
-            <h3>{{profile?.name}}</h3>
-            <h5>Vaults: {{vaults?.length}}</h5>
-            <h5>Keeps: {{keeps?.length}}</h5>
+          <img :src="profile?.picture" :alt="profile?.name" class="profile-pic rounded-3">
+          <div class="d-flex flex-column ps-4">
+            <h3 class="profile-name">{{profile?.name}}</h3>
+            <h5 class="profile-stats">Vaults: {{vaults?.length}}</h5>
+            <h5 class="profile-stats">Keeps: {{keeps?.length}}</h5>
           </div>
         </div>
       </div>
       
-      <div class="row">
-        <h4>
+      <div class="row mt-5">
+        <h4 class="profile-heading">
           Vaults
-          <i class="mdi mdi-plus"></i>
+          <i @click="newVault()" class="mdi mdi-plus"></i>
         </h4>
         <div class="col-12">
           <div class="row">
@@ -26,10 +26,10 @@
         </div>
       </div>
 
-      <div class="row">
-        <h4>
+      <div class="row mt-5">
+        <h4 class="profile-heading">
           Keeps
-          <i class="mdi mdi-plus"></i>
+          <i @click="newKeep()" class="mdi mdi-plus"></i>
         </h4>
       </div>
   <!-- masonry goes here -->
@@ -38,6 +38,8 @@
       </div>
     </div>
     <KeepModal :keep="activeKeep" />
+    <NewVaultModal />
+    <NewKeepModal />
   </div>
 </template>
 
@@ -51,6 +53,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { Modal } from 'bootstrap'
 import { keepsService } from '../services/KeepsService';
 import VaultTile from '../components/VaultTile.vue';
+import NewVaultModal from '../components/NewVaultModal.vue';
+import NewKeepModal from '../components/NewKeepModal.vue';
 export default {
     setup() {
         const router = useRouter();
@@ -80,18 +84,26 @@ export default {
 
             async viewVault(vault) {
               router.push({name: 'Vault', params: {id: vault.id}})
+            },
+
+            newVault() {
+              Modal.getOrCreateInstance(document.getElementById('newVaultModal')).show()
+            },
+
+            newKeep() {
+              Modal.getOrCreateInstance(document.getElementById('newKeepModal')).show()
             }
         };
     },
-    components: { VaultTile }
+    components: { VaultTile, NewVaultModal, NewKeepModal }
 }
 </script>
 
 
 <style lang="scss" scoped>
 .profile-pic {
-  height: 200px;
-  width: 200px;
+  height: 192px;
+  width: 192px;
   object-fit: contain;
 }
 
@@ -113,6 +125,25 @@ export default {
   .masonry-frame {
     columns: 2;
   }
+}
+
+.profile-name {
+  font-size: 56px;
+  font-weight: 300;
+}
+
+.profile-stats {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.profile-heading {
+  font-size: 40px;
+  font-weight: 400;;
+}
+
+.mdi {
+  // color plus buttons here
 }
 
 </style>

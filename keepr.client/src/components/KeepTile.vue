@@ -1,8 +1,8 @@
 <template>
   <div @click="viewKeep()" class="component">
-    <div class="card bg-dark text-white">
+    <div class="card bg-dark text-white border-0 rounded-3">
       <!-- TODO check if keep.img is a valid image -->
-      <img :src="keep.img" class="card-img" :alt="keep.name">
+      <img :src="keep.img" class="card-img rounded-3" :alt="keep.name">
       <div class="card-img-overlay d-flex justify-content-between align-items-end">
         <h5 class="card-title">{{ keep.name }}</h5>
         <img :src="keep.creator.picture" :alt="keep.creator.name" class="rounded-pill img-fluid profile-pic">

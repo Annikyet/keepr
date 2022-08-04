@@ -20,6 +20,15 @@ class KeepsService {
       logger.error(error)
     }
   }
+
+  async create(newKeep) {
+    try {
+      const res = await api.post('api/keeps', newKeep)
+      logger.log(res.data)
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 }
 
 export const keepsService = new KeepsService()

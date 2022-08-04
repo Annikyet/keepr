@@ -2,7 +2,7 @@
   <!-- TODO add masonry later -->
   <div class="container-fluid px-md-5 pt-4">
     <div class="masonry-frame">
-      <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="p-2">
+      <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="py-2">
       <!-- <img src="../assets/img/404.svg" alt=""> TODO use this as default img in DB-->
         <KeepTile :keep="k" />
       </div>
