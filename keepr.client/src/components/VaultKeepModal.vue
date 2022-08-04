@@ -90,11 +90,6 @@ export default {
  
  
  <style lang="scss" scoped>
- .modal-content {
-   // width: 84vw;
-   // height: calc(100vh - 16vw);
-   // margin: 8vw;
- }
  
  .img-fluid {
    width: 100%;

@@ -8,7 +8,7 @@
             <h6 class="vault-stats">Keeps: vaultKeep stoufe</h6>
           </div>
           <div class="d-flex align-items-start">
-            <button @click="deleteVault()" class="btn btn-outline-dark">Delete Vault</button>
+            <button v-if="account.id == vault.creatorId" @click="deleteVault()" class="btn btn-outline-secondary">Delete Vault</button>
           </div>
         </div>
       </div>
@@ -18,7 +18,9 @@
         </div>
       </div>
     </div>
-  <VaultKeepModal :keep="activeKeep" />
+  <KeepModal :keep="activeKeep">
+  <VaultKeepModalButtons :keep="activeKeep" />
+  </KeepModal>
   </div>
 </template>
 
@@ -34,6 +36,7 @@ import { keepsService } from '../services/KeepsService';
 import { vaultsService } from '../services/VaultsService'
 import KeepTile from '../components/KeepTile.vue';
 import KeepModal from '../components/KeepModal.vue';
+import KeepModalButtons from '../components/KeepModalButtons.vue';
 export default {
   setup() {
     const route = useRoute();
@@ -45,14 +48,15 @@ export default {
       vault: computed(() => AppState.activeVault),
       keeps: computed(() => AppState.vaultKeeps),
       activeKeep: computed(() => AppState.activeKeep),
+      account: computed(() => AppState.account),
 
       viewKeep(keep) {
         AppState.activeKeep = keep
-        Modal.getOrCreateInstance(document.getElementById('vaultKeepModal')).show()
+        Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
       }
     };
   },
-  components: { KeepTile, KeepModal }
+  components: { KeepTile, KeepModal, KeepModalButtons }
 }
 </script>
 

@@ -8,7 +8,9 @@
       </div>
     </div>
   </div>
-  <KeepModal :keep="activeKeep" />
+  <KeepModal :keep="activeKeep">
+    <KeepModalButtons :keep="activeKeep" />
+  </KeepModal>
 </template>
 
 <script>
@@ -17,29 +19,29 @@ import { AppState } from '../AppState.js'
 import { logger } from '../utils/Logger.js'
 import { keepsService } from '../services/KeepsService.js'
 import { Modal } from 'bootstrap'
+import KeepModalButtons from '../components/KeepModalButtons.vue'
 export default {
-  name: 'Home',
-  setup() {
-    onMounted(async () => {
-      try {
-        await keepsService.getAll()
-        // document.getElementById('keepModal').
-        
-      } catch (error) {
-        logger.error(error)
-      }
-    })
-
-    return {
-      keeps: computed(() => AppState.keeps),
-      activeKeep: computed(() => AppState.activeKeep),
-
-      viewKeep(keep) {
-        AppState.activeKeep = keep
-        Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
-      }
-    }
-  }
+    name: "Home",
+    setup() {
+        onMounted(async () => {
+            try {
+                await keepsService.getAll();
+                // document.getElementById('keepModal').
+            }
+            catch (error) {
+                logger.error(error);
+            }
+        });
+        return {
+            keeps: computed(() => AppState.keeps),
+            activeKeep: computed(() => AppState.activeKeep),
+            viewKeep(keep) {
+                AppState.activeKeep = keep;
+                Modal.getOrCreateInstance(document.getElementById("keepModal")).show();
+            }
+        };
+    },
+    components: { KeepModalButtons }
 }
 </script>
 

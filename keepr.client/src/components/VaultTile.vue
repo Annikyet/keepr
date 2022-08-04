@@ -43,4 +43,9 @@ export default {
   object-fit: cover;
 }
 
+.card-title {
+  color: #fffffff0;
+  text-shadow: 1px 1px 3px #000000e0;
+}
+
 </style>
