@@ -89,4 +89,8 @@ export default {
    font-size: 32px;
    font-weight: 300;
  }
+
+ .img-fluid {
+  max-height: 90vh;
+ }
  </style>
