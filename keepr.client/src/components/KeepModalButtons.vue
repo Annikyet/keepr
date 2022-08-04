@@ -7,7 +7,7 @@
         <button id="addToVaultGroup" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">Add to Vault</button>
         <ul class="dropdown-menu" aria-labelledby="addToVaultGroup">
-          <!-- <li v-for="v in userVaults"><a @click="addToVault(v.id)" class="dropdown-item">{{v.name}}</a></li> -->
+          <li v-for="v in myVaults" :key="v.id"><a @click="addToVault(v.id)" class="dropdown-item">{{v.name}}</a></li>
         </ul>
       </div>
 
@@ -27,11 +27,14 @@
 
 <script>
 import { AppState } from '../AppState'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Modal } from 'bootstrap'
 import { logger } from '../utils/Logger.js'
 import { useRouter } from 'vue-router'
 import { keepsService } from '../services/KeepsService'
+import { vaultsService } from '../services/VaultsService'
+import { profilesService } from '../services/ProfilesService'
+import { vaultKeepsService } from '../services/VaultKeepsService'
 export default {
   props: {
     keep: {
@@ -53,6 +56,7 @@ export default {
     const router = useRouter()
     return {
       account: computed(() => AppState.account ),
+      myVaults: computed(() => AppState.myVaults),
 
       viewProfile() {
         // console.log(user.name)
@@ -66,6 +70,11 @@ export default {
         await keepsService.delete(props.keep.id)
         Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
         // do more things
+      },
+
+      async addToVault(vaultId) {
+        await vaultKeepsService.create(props.keep.id, vaultId)
+        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
       }
     }
   }

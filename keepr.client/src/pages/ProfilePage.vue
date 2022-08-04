@@ -15,7 +15,7 @@
       <div class="row mt-5">
         <h4 class="profile-heading">
           Vaults
-          <i @click="newVault()" class="mdi mdi-plus"></i>
+          <i v-if="profile.id == account.id" @click="newVault()" class="mdi mdi-plus"></i>
         </h4>
         <div class="col-12">
           <div class="row">
@@ -29,7 +29,7 @@
       <div class="row mt-5">
         <h4 class="profile-heading">
           Keeps
-          <i @click="newKeep()" class="mdi mdi-plus"></i>
+          <i v-if="profile.id == account.id" @click="newKeep()" class="mdi mdi-plus"></i>
         </h4>
       </div>
   <!-- masonry goes here -->
@@ -75,6 +75,7 @@ export default {
         return {
             // no curly gorls
             profile: computed(() => AppState.activeProfile),
+            account: computed(() => AppState.account),
             keeps: computed(() => AppState.profileKeeps),
             vaults: computed(() => AppState.profileVaults),
             activeKeep: computed(() => AppState.activeKeep),

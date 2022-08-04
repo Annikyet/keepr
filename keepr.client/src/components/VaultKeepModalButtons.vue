@@ -1,9 +1,8 @@
 <template>
   <div class="d-flex justify-content-between align-items-end">
-    <button class="btn btn-outline-secondary">Remove from Vault</button>
+    <button v-if="account.id == vault.creatorId" @click="removeFromVault(keep.id)" class="btn btn-outline-secondary">Remove from Vault</button>
 
-    <!-- account is empty... -->
-    <button v-show="account?.id == keep?.creator?.id" class="btn btn-primary">trashcan</button>
+    <i v-show="account.id == keep.creatorId" @click="deleteKeep()" class="mdi mdi-delete-outline text-secondary" title="Delete"></i>
 
     <div @click="viewProfile(keep?.creator)" class="d-flex align-items-end">
       <img :src="keep?.creator?.picture" :alt="keep?.creator?.name" class="profile-pic rounded-3 me-2">
@@ -19,6 +18,7 @@ import { computed } from 'vue'
 import { Modal } from 'bootstrap'
 import { logger } from '../utils/Logger.js'
 import { useRouter } from 'vue-router'
+import { vaultKeepsService } from '../services/VaultKeepsService'
 export default {
   props: {
     keep: {
@@ -29,6 +29,7 @@ export default {
       img: String,
       views: Number,
       kept: Number,
+      vaultKeepId: Number,
       creator: {
         id: String,
         name: String,
@@ -39,13 +40,26 @@ export default {
   setup(props) {
     const router = useRouter()
     return {
-      account: computed(() => { AppState.account; }),
+      account: computed(() => AppState.account),
+      vault: computed(() => AppState.activeVault),
+
       viewProfile() {
         // console.log(user.name)
         // AppState.activeProfile = props.keep.creator
         Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
         // logger.log(props.keep.creator.id)
         router.push({ name: "Profile", params: { id: props.keep.creator.id } });
+      },
+
+      async removeFromVault() {
+        await vaultKeepsService.delete(props.keep.vaultKeepId)
+        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+      },
+
+      async deleteKeep() {
+        await keepsService.delete(props.keep.id)
+        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+        // do more things
       }
     }
   }
@@ -64,4 +78,9 @@ export default {
    font-size: 18px;
    font-weight: 300;
  }
+
+.mdi-delete-outline {
+  font-size: 36px;
+  line-height: 36px;
+}
 </style>

@@ -23,10 +23,10 @@
               <textarea name="keepDescription" id="keepDescription" v-model="description"
                 placeholder="Keep Description..." rows="5" class="form-control"></textarea>
             </div>
-            <div class="mb-1">
+            <!-- <div class="mb-1">
               <label for="keepTags" class="form-label">Tags</label>
               <input type="text" id="keepTags" name="keepTags" v-model="img" placeholder="Tags..." class="form-control">
-            </div>
+            </div> -->
             <button @click="createKeep()" class="btn btn-primary">Create</button>
             <!-- </form> -->
           </div>

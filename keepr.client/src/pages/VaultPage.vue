@@ -5,7 +5,7 @@
         <div class="col-12 d-flex justify-content-between">
           <div>
             <h4 class="vault-title">{{ vault.name }}</h4>
-            <h6 class="vault-stats">Keeps: vaultKeep stoufe</h6>
+            <h6 class="vault-stats">Keeps: {{ keeps.length }}</h6>
           </div>
           <div class="d-flex align-items-start">
             <button v-if="account.id == vault.creatorId" @click="deleteVault()" class="btn btn-outline-secondary">Delete Vault</button>
@@ -37,9 +37,11 @@ import { vaultsService } from '../services/VaultsService'
 import KeepTile from '../components/KeepTile.vue';
 import KeepModal from '../components/KeepModal.vue';
 import KeepModalButtons from '../components/KeepModalButtons.vue';
+import { vaultKeepsService } from '../services/VaultKeepsService';
 export default {
   setup() {
     const route = useRoute();
+    const router = useRouter()
     onMounted(async () => {
       await vaultsService.getVault(route.params.id);
       await vaultsService.getVaultKeeps(route.params.id);
@@ -53,6 +55,11 @@ export default {
       viewKeep(keep) {
         AppState.activeKeep = keep
         Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
+      },
+
+      async deleteVault() {
+        await vaultsService.delete(AppState.activeVault.id, AppState.vaultKeeps)
+        router.push({ name: "Profile", params: { id: AppState.account.id } })
       }
     };
   },
