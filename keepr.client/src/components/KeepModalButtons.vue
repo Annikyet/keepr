@@ -13,7 +13,7 @@
 
       <!-- account is empty... -->
 
-      <i v-show="account.id == keep.creatorId" class="mdi mdi-delete-outline text-secondary" title="Delete"></i>
+      <i v-show="account.id == keep.creatorId" @click="deleteKeep()" class="mdi mdi-delete-outline text-secondary" title="Delete"></i>
 
     </div>
 
@@ -31,6 +31,7 @@ import { computed } from 'vue'
 import { Modal } from 'bootstrap'
 import { logger } from '../utils/Logger.js'
 import { useRouter } from 'vue-router'
+import { keepsService } from '../services/KeepsService'
 export default {
   props: {
     keep: {
@@ -52,12 +53,19 @@ export default {
     const router = useRouter()
     return {
       account: computed(() => AppState.account ),
+
       viewProfile() {
         // console.log(user.name)
         // AppState.activeProfile = props.keep.creator
         Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
         // logger.log(props.keep.creator.id)
         router.push({ name: "Profile", params: { id: props.keep.creator.id } });
+      },
+
+      async deleteKeep() {
+        await keepsService.delete(props.keep.id)
+        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+        // do more things
       }
     }
   }

@@ -37,7 +37,9 @@
         <ProfileKeepTile v-for="k in keeps" :key="k.id" :keep="k" @click="viewKeep(k)" class="py-2" />
       </div>
     </div>
-    <KeepModal :keep="activeKeep" />
+    <KeepModal :keep="activeKeep">
+      <KeepModalButtons :keep="activeKeep" />
+    </KeepModal>
     <NewVaultModal />
     <NewKeepModal />
   </div>
@@ -55,6 +57,7 @@ import { keepsService } from '../services/KeepsService';
 import VaultTile from '../components/VaultTile.vue';
 import NewVaultModal from '../components/NewVaultModal.vue';
 import NewKeepModal from '../components/NewKeepModal.vue';
+import KeepModalButtons from '../components/KeepModalButtons.vue';
 export default {
     setup() {
         const router = useRouter();
@@ -95,7 +98,7 @@ export default {
             }
         };
     },
-    components: { VaultTile, NewVaultModal, NewKeepModal }
+    components: { VaultTile, NewVaultModal, NewKeepModal, KeepModalButtons }
 }
 </script>
 

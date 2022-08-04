@@ -1,6 +1,7 @@
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
+import Pop from '../utils/Pop'
 
 class KeepsService {
   async getAll() {
@@ -9,6 +10,7 @@ class KeepsService {
       AppState.keeps = res.data
     } catch (error) {
       logger.error(error)
+      Pop.error(error)
     }
   }
 
@@ -18,15 +20,33 @@ class KeepsService {
       AppState.keeps = res.data
     } catch (error) {
       logger.error(error)
+      Pop.error(error)
     }
   }
 
   async create(newKeep) {
     try {
       const res = await api.post('api/keeps', newKeep)
-      logger.log(res.data)
+      // logger.log(res.data)
+      AppState.profileKeeps.push(res.data)
+      AppState.keeps.push(res.data)
+      // this.getAll()
     } catch (error) {
       logger.error(error)
+      Pop.error(error)
+    }
+  }
+
+  async delete(keepId) {
+    try {
+      const res = await api.delete('api/keeps/' + keepId)
+      // logger.log(res.data)
+      // AppState.keeps.filter((k) => k.id != res.data)
+      // AppState.keeps.filter((k) => k.id != keepId)
+      this.getAll()
+    } catch (error) {
+      logger.error(error)
+      Pop.error(error)
     }
   }
 }

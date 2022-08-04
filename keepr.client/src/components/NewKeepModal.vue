@@ -61,6 +61,7 @@ export default {
           // ,tags: this.tags
         }
         await keepsService.create(newKeep)
+        Modal.getOrCreateInstance(document.getElementById("newKeepModal")).hide();
 
         // reload vaults
         // close modal
