@@ -3,12 +3,12 @@
 
     <div class="d-flex align-items-end">
 
-      <div class="btn-group me-5" role="group">
+      <div v-show="account.id" class="btn-group me-5" role="group">
         <button id="addToVaultGroup" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">Add to Vault</button>
         <ul class="dropdown-menu" aria-labelledby="addToVaultGroup">
           <li v-for="v in myVaults" :key="v.id"><a @click="addToVault(v.id)" class="dropdown-item">{{v.name}}</a></li>
-        </ul>
+        </ul> 
       </div>
 
       <!-- account is empty... -->

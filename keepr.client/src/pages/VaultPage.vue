@@ -53,7 +53,9 @@ export default {
       account: computed(() => AppState.account),
 
       viewKeep(keep) {
-        AppState.activeKeep = keep
+        // AppState.activeKeep = keep
+        // make API call to trigger view counter
+        keepsService.getById(keep.id)
         Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
       },
 

@@ -1,5 +1,6 @@
 <template>
   <div class="d-flex justify-content-between align-items-end">
+    <div></div>
     <button v-if="account.id == vault.creatorId" @click="removeFromVault(keep.id)" class="btn btn-outline-secondary">Remove from Vault</button>
 
     <i v-show="account.id == keep.creatorId" @click="deleteKeep()" class="mdi mdi-delete-outline text-secondary" title="Delete"></i>

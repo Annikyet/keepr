@@ -17,7 +17,7 @@ class KeepsService {
   async getById(id) {
     try {
       const res = await api.get('api/keeps/' + id)
-      AppState.keeps = res.data
+      AppState.activeKeep = res.data
     } catch (error) {
       logger.error(error)
       Pop.error(error)
