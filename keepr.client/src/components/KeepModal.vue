@@ -2,8 +2,8 @@
   <div class="component">
     <div class="modal fade" id="keepModal" tabindex="-1" aria-labelledby="keepModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-          <div class="card">
+        <div class="modal-content border-0">
+          <div class="card border-0">
             <div class="row">
               <div class="col-6">
                 <img :src="keep?.img" :alt="keep?.name" class="img-fluid">

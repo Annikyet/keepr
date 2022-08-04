@@ -1,22 +1,24 @@
 <template>
   <div class="component">
     <div class="container">
-      <div class="row">
+      <div class="row mt-5">
         <div class="col-12 d-flex justify-content-between">
           <div>
-            <h4>{{ vault.name }}</h4>
-            <h6>Keeps: vaultKeep stoufe</h6>
+            <h4 class="vault-title">{{ vault.name }}</h4>
+            <h6 class="vault-stats">Keeps: vaultKeep stoufe</h6>
           </div>
-          <i @click="" class="mdi mdi-delete"></i>
+          <div class="d-flex align-items-start">
+            <button @click="deleteVault()" class="btn btn-outline-dark">Delete Vault</button>
+          </div>
         </div>
       </div>
-      <div class="masonry-frame">
-        <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="p-2">
+      <div class="masonry-frame mt-5">
+        <div v-for="k in keeps" :key="k.id" @click="viewKeep(k)" class="p-2 ps-0">
           <KeepTile :keep="k" />
         </div>
       </div>
     </div>
-  <KeepModal :keep="activeKeep" />
+  <VaultKeepModal :keep="activeKeep" />
   </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
 
       viewKeep(keep) {
         AppState.activeKeep = keep
-        Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
+        Modal.getOrCreateInstance(document.getElementById('vaultKeepModal')).show()
       }
     };
   },
@@ -57,7 +59,7 @@ export default {
 
 <style lang="scss" scoped>
 .masonry-frame {
-  columns: 6;
+  columns: 4;
 
   div {
     break-inside: avoid;
@@ -66,7 +68,7 @@ export default {
 
 @media (max-width: 991.98px) {
   .masonry-frame {
-    columns: 4
+    columns: 3;
   }
 }
 
@@ -74,5 +76,15 @@ export default {
   .masonry-frame {
     columns: 2;
   }
+}
+
+.vault-title {
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.vault-stats {
+  font-size: 20px;
+  font-weight: 300;
 }
 </style>
