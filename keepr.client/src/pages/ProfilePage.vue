@@ -81,11 +81,17 @@ export default {
             activeKeep: computed(() => AppState.activeKeep),
 
             async viewKeep(keep) {
+              try {
                 keep.creator = AppState.activeProfile;
                 // AppState.activeKeep = keep
                 // make API call to trigger view counter
                 keepsService.getById(keep.id)
                 Modal.getOrCreateInstance(document.getElementById("keepModal")).show();
+                
+              } catch (error) {
+                logger.error(error)
+                Pop.toast(error)
+              }
             },
 
             async viewVault(vault) {

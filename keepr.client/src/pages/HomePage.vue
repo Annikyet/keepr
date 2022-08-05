@@ -35,11 +35,18 @@ export default {
         return {
             keeps: computed(() => AppState.keeps),
             activeKeep: computed(() => AppState.activeKeep),
+
             viewKeep(keep) {
+              try {
                 // AppState.activeKeep = keep;
                 // make API call to trigger view counter
                 keepsService.getById(keep.id)
                 Modal.getOrCreateInstance(document.getElementById("keepModal")).show();
+
+              } catch (error) {
+                logger.error(error)
+                Pop.toast(error)
+              }
             }
         };
     },

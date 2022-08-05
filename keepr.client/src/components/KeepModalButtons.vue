@@ -67,14 +67,25 @@ export default {
       },
 
       async deleteKeep() {
-        await keepsService.delete(props.keep.id)
-        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
-        // do more things
+        try {
+          await keepsService.delete(props.keep.id)
+          Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
       },
 
       async addToVault(vaultId) {
-        await vaultKeepsService.create(props.keep.id, vaultId)
-        Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+        try {
+          await vaultKeepsService.create(props.keep.id, vaultId)
+          Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
       }
     }
   }

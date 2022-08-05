@@ -54,17 +54,20 @@ export default {
       tags: "",
 
       async createKeep() {
-        let newKeep = {
-          name: this.name,
-          img: this.img,
-          description: this.description
-          // ,tags: this.tags
+        try {
+          let newKeep = {
+            name: this.name,
+            img: this.img,
+            description: this.description
+            // ,tags: this.tags
+          }
+          await keepsService.create(newKeep)
+          Modal.getOrCreateInstance(document.getElementById("newKeepModal")).hide()
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error0)
         }
-        await keepsService.create(newKeep)
-        Modal.getOrCreateInstance(document.getElementById("newKeepModal")).hide();
-
-        // reload vaults
-        // close modal
       }
     }
   }

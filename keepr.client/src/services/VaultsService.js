@@ -21,31 +21,17 @@ class VaultsService {
   }
 
   async createVault(vaultData) {
-    try {
       const res = await api.post('api/vaults', vaultData)
       // logger.log(res.data)
       // AppState.myVaults.push(res.data)
       profilesService.getVaults(AppState.account.id)
       AppState.myVaults = AppState.profileVaults
-    } catch (error) {
-      logger.error(error)
-      Pop.error(error)
-    }
   }
 
   async delete(vaultId, vaultKeeps) {
-    try {
-      // vaultKeeps will collect in db... if this isn't here
-      // for (let vk = 0; vk < vaultKeeps.length; vk++) {
-      //   await vaultKeepsService.delete(vaultKeeps[vk].id)
-      // }
       await api.delete('api/vaults/' + vaultId)
       profilesService.getVaults(AppState.account.id)
       AppState.myVaults = AppState.profileVaults
-    } catch (error) {
-      logger.error(error)
-      Pop.error(error)
-    }
   }
 }
 

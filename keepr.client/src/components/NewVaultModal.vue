@@ -47,14 +47,20 @@ export default {
         isPrivate: false,
 
       async createVault() {
-        let newVault = {
-            name: this.name,
-            img: this.img,
-            isPrivate: this.isPrivate
-          }
-
-        await vaultsService.createVault(newVault)
-        Modal.getOrCreateInstance(document.getElementById("newVaultModal")).hide();
+        try {
+          let newVault = {
+              name: this.name,
+              img: this.img,
+              isPrivate: this.isPrivate
+            }
+  
+          await vaultsService.createVault(newVault)
+          Modal.getOrCreateInstance(document.getElementById("newVaultModal")).hide();
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
       }
     }
   }

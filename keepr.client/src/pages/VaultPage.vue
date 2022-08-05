@@ -60,17 +60,29 @@ export default {
       account: computed(() => AppState.account),
 
       async viewKeep(keep) {
-        // AppState.activeKeep = keep
-        // make API call to trigger view counter
-        // debugger
-        await keepsService.getById(keep.id)
-        AppState.activeKeep = keep
-        Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
+        try {
+          // AppState.activeKeep = keep
+          // make API call to trigger view counter
+          // debugger
+          await keepsService.getById(keep.id)
+          AppState.activeKeep = keep
+          Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
       },
 
       async deleteVault() {
-        await vaultsService.delete(AppState.activeVault.id, AppState.vaultKeeps)
-        router.push({ name: "Profile", params: { id: AppState.account.id } })
+        try {
+          await vaultsService.delete(AppState.activeVault.id, AppState.vaultKeeps)
+          router.push({ name: "Profile", params: { id: AppState.account.id } })
+          
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
       }
     };
   },
