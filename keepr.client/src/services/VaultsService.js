@@ -4,26 +4,20 @@ import { api } from './AxiosService'
 import Pop from '../utils/Pop'
 import { profilesService } from './ProfilesService'
 import { vaultKeepsService } from './VaultKeepsService'
-
+// import { useRouter, useRoute } from 'vue-router'
 class VaultsService {
   async getVault(vaultId) {
-    try {
+      logger.log('gv')
+      logger.log(vaultId)
       const res = await api.get('api/vaults/' + vaultId)
       AppState.activeVault = res.data
-    } catch (error) {
-      logger.error(error)
-      Pop.error(error)
-    }
   }
-
+  
   async getVaultKeeps(vaultId) {
-    try {
+      logger.log('gvk')
+      logger.log(vaultId)
       const res = await api.get('api/vaults/' + vaultId + '/keeps')
       AppState.vaultKeeps = res.data
-    } catch (error) {
-      logger.error(error)
-      Pop.error(error)
-    }
   }
 
   async createVault(vaultData) {

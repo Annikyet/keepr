@@ -53,6 +53,7 @@ export default {
       img: String,
       views: Number,
       kept: Number,
+      vaultKeepId: Number,
       creator: {
         id: String,
         name: String,

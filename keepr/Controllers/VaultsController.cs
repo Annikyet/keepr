@@ -3,7 +3,6 @@ using keepr.Models;
 using keepr.Services;
 using Microsoft.AspNetCore.Mvc;
 using CodeWorks.Auth0Provider;
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -63,7 +62,7 @@ namespace keepr.Controllers
     }
 
     [HttpGet("{vaultId}/keeps")]
-    public async Task<ActionResult<List<Keep>>> GetVaultKeeps(int vaultId)
+    public async Task<ActionResult<List<KeepVaultViewModel>>> GetVaultKeeps(int vaultId)
     {
       try
       {

@@ -27,4 +27,9 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
+footer a {
+  // font-family: cursive;
+  color: #e9ecef;
+}
+
 </style>

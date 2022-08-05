@@ -8,7 +8,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <h3 class="card-title">New Keep</h3>
-            <!-- <form> -->
+            <form @submit.prevent="createKeep()">
             <div class="mb-1">
               <label for="keepTitle" class="form-label">Title</label>
               <input type="text" id="keepTitle" name="keepTitle" v-model="name" placeholder="Title..."
@@ -27,8 +27,8 @@
               <label for="keepTags" class="form-label">Tags</label>
               <input type="text" id="keepTags" name="keepTags" v-model="img" placeholder="Tags..." class="form-control">
             </div> -->
-            <button @click="createKeep()" class="btn btn-primary">Create</button>
-            <!-- </form> -->
+            <button type="submit" class="btn btn-primary">Create</button>
+            </form>
           </div>
         </div>
       </div>

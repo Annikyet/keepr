@@ -19,7 +19,7 @@
       </div>
     </div>
   <KeepModal :keep="activeKeep">
-  <VaultKeepModalButtons :keep="activeKeep" />
+    <VaultKeepModalButtons :keep="activeKeep" />
   </KeepModal>
   </div>
 </template>
@@ -38,13 +38,20 @@ import KeepTile from '../components/KeepTile.vue';
 import KeepModal from '../components/KeepModal.vue';
 import KeepModalButtons from '../components/KeepModalButtons.vue';
 import { vaultKeepsService } from '../services/VaultKeepsService';
+import Pop from '../utils/Pop';
 export default {
   setup() {
     const route = useRoute();
     const router = useRouter()
     onMounted(async () => {
-      await vaultsService.getVault(route.params.id);
-      await vaultsService.getVaultKeeps(route.params.id);
+      try {
+        await vaultsService.getVault(route.params.id);
+        await vaultsService.getVaultKeeps(route.params.id);
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error) // .error has issues
+        router.push({name: 'Home'})
+      }
     });
     return {
       vault: computed(() => AppState.activeVault),
@@ -52,10 +59,12 @@ export default {
       activeKeep: computed(() => AppState.activeKeep),
       account: computed(() => AppState.account),
 
-      viewKeep(keep) {
+      async viewKeep(keep) {
         // AppState.activeKeep = keep
         // make API call to trigger view counter
-        keepsService.getById(keep.id)
+        // debugger
+        await keepsService.getById(keep.id)
+        AppState.activeKeep = keep
         Modal.getOrCreateInstance(document.getElementById('keepModal')).show()
       },
 

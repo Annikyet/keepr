@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-between align-items-end">
-    <div></div>
+    <!-- <div></div> -->
     <button v-if="account.id == vault.creatorId" @click="removeFromVault(keep.id)" class="btn btn-outline-secondary">Remove from Vault</button>
 
     <i v-show="account.id == keep.creatorId" @click="deleteKeep()" class="mdi mdi-delete-outline text-secondary" title="Delete"></i>
@@ -20,6 +20,7 @@ import { Modal } from 'bootstrap'
 import { logger } from '../utils/Logger.js'
 import { useRouter } from 'vue-router'
 import { vaultKeepsService } from '../services/VaultKeepsService'
+import { keepsService } from '../services/KeepsService'
 export default {
   props: {
     keep: {
@@ -53,12 +54,15 @@ export default {
       },
 
       async removeFromVault() {
+        // props.keep don't have vaultKeepId...
+        logger.log(props.keep)
         await vaultKeepsService.delete(props.keep.vaultKeepId)
         Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
       },
 
       async deleteKeep() {
         await keepsService.delete(props.keep.id)
+        await vaultKeepsService.delete(props.keep.vaultKeepId)
         Modal.getOrCreateInstance(document.getElementById("keepModal")).hide();
         // do more things
       }
